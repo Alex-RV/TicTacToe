@@ -26,6 +26,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   String lastValue = "X";
   bool gameOver = false;
+  int turn = 0;
 
   Game game = Game();
 
@@ -57,7 +58,7 @@ class _GameScreenState extends State<GameScreen> {
           SizedBox(
             height: 20.0,
           ),
-          Container(
+          SizedBox(
             width: boardWidth,
             height: boardWidth,
             child: GridView.count(
@@ -69,14 +70,24 @@ class _GameScreenState extends State<GameScreen> {
               mainAxisSpacing: 8.0,
               crossAxisSpacing: 8.0,
 
+              //check how works "generate" in documentation
               children: List.generate(Game.boardLenth, (index) {
                 return InkWell(
                   onTap: gameOver
                       ? null
                       : () {
-                          setState(() {
-                            game.board![index] = lastValue;
-                          });
+                          if (game.board![index] == "") {
+                            setState(() {
+                              game.board![index] = lastValue;
+                              // ! -> null check
+                              print(game.board);
+                              if (lastValue == "X") {
+                                lastValue = "O";
+                              } else {
+                                lastValue = "X";
+                              }
+                            });
+                          }
                         },
                   child: Container(
                     width: Game.blockSize,
@@ -98,6 +109,16 @@ class _GameScreenState extends State<GameScreen> {
                 );
               }),
             ),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              setState(() {
+                game.board = Game.initGameBoard();
+                lastValue = "X";
+              });
+            },
+            icon: Icon(Icons.replay),
+            label: Text("Repeat game"),
           ),
         ],
       ),
