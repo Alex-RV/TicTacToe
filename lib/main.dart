@@ -26,7 +26,18 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   String lastValue = "X";
   bool gameOver = false;
-  int turn = 0;
+  int turn = 0; // to check the draw
+  String result = "";
+  List<int> scoreboard = [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ];
 
   Game game = Game();
 
@@ -80,7 +91,17 @@ class _GameScreenState extends State<GameScreen> {
                             setState(() {
                               game.board![index] = lastValue;
                               // ! -> null check
-                              print(game.board);
+                              turn++;
+                                gameOver = game.winnerCheck(
+                                    lastValue, index, scoreboard, 3);
+
+                                if (gameOver) {
+                                  result = "$lastValue is the Winner";
+                                } else if (!gameOver && turn == 9) {
+                                  result = "It's a Draw!";
+                                  gameOver = true;
+                                }
+                              print(index %3 );
                               if (lastValue == "X") {
                                 lastValue = "O";
                               } else {
@@ -110,11 +131,23 @@ class _GameScreenState extends State<GameScreen> {
               }),
             ),
           ),
+          SizedBox(
+              height: 25.0,
+          ),
+          Text(
+              result,
+              style: TextStyle(color: Colors.white, fontSize: 54.0),
+          ),
+
           ElevatedButton.icon(
             onPressed: () {
               setState(() {
                 game.board = Game.initGameBoard();
                 lastValue = "X";
+                gameOver = false;
+                turn = 0;
+                result = "";
+                scoreboard = [0, 0, 0, 0, 0, 0, 0, 0];
               });
             },
             icon: Icon(Icons.replay),
