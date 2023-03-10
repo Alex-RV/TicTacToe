@@ -75,21 +75,21 @@ class _GameScreenState extends State<GameScreen> {
             child: GridView.count(
               //check what is the crossAxisCount
               // ~/ return Int as result
-              crossAxisCount: Game.boardLenth ~/ 3,
+              crossAxisCount: Game.boardLength ~/ 3,
 
               padding: EdgeInsets.all(16.0),
               mainAxisSpacing: 8.0,
               crossAxisSpacing: 8.0,
 
               //check how works "generate" in documentation
-              children: List.generate(Game.boardLenth, (index) {
+              children: List.generate(Game.boardLength, (index) {
                 return InkWell(
                   onTap: gameOver
                       ? null
                       : () {
-                          if (game.board![index] == "") {
+                          if (game.board[index] == "") {
                             setState(() {
-                              game.board![index] = lastValue;
+                              game.board[index] = lastValue;
                               // ! -> null check
                               turn++;
                                 gameOver = game.winnerCheck(
