@@ -54,27 +54,18 @@ class _GameScreenState extends State<GameScreen> {
             mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
             crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
             children: [
-              Text(
-                "It's ".toUpperCase(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 58,
-                ),
+              RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan( text: "It's ".toUpperCase(),
+                    style: TextStyle( color: Colors.white,fontSize: 58,),),
+                  TextSpan(text: lastValue.toUpperCase(), 
+                    style: TextStyle(color: lastValue == "X" ? Colors.blue : Colors.red, fontSize: 58,)),
+                  TextSpan(text: " turn", 
+                    style: TextStyle(color: Colors.white, fontSize: 58,)),
+                ],
               ),
-              Text(
-                lastValue.toUpperCase(),
-                style: TextStyle(
-                  color: lastValue == "X" ? Colors.blue : Colors.red,
-                  fontSize: 58,
-                ),
-              ),
-              Text(
-                " turn".toUpperCase(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 58,
-                ),
-              ),
+            ),
             ],
           ),
           SizedBox(
