@@ -28,16 +28,7 @@ class _GameScreenState extends State<GameScreen> {
   bool gameOver = false;
   int turn = 0; // to check the draw
   String result = "";
-  List<int> scoreboard = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-  ];
+  List<int> scoreboard = [0, 0, 0, 0, 0, 0, 0, 0];
 
   Game game = Game();
 
@@ -59,12 +50,32 @@ class _GameScreenState extends State<GameScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            "It's $lastValue turn".toUpperCase(),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 58,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+            crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
+            children: [
+              Text(
+                "It's ".toUpperCase(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 58,
+                ),
+              ),
+              Text(
+                lastValue.toUpperCase(),
+                style: TextStyle(
+                  color: lastValue == "X" ? Colors.blue : Colors.red,
+                  fontSize: 58,
+                ),
+              ),
+              Text(
+                " turn".toUpperCase(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 58,
+                ),
+              ),
+            ],
           ),
           SizedBox(
             height: 20.0,
@@ -90,18 +101,16 @@ class _GameScreenState extends State<GameScreen> {
                           if (game.board[index] == "") {
                             setState(() {
                               game.board[index] = lastValue;
-                              // ! -> null check
                               turn++;
-                                gameOver = game.winnerCheck(
-                                    lastValue, index, scoreboard, 3);
+                              gameOver = game.winnerCheck(
+                                  lastValue, index, scoreboard, 3);
 
-                                if (gameOver) {
-                                  result = "$lastValue is the Winner";
-                                } else if (!gameOver && turn == 9) {
-                                  result = "It's a Draw!";
-                                  gameOver = true;
-                                }
-                              print(index %3 );
+                              if (gameOver) {
+                                result = "$lastValue is the Winner";
+                              } else if (!gameOver && turn == 9) {
+                                result = "It's a Draw!";
+                                gameOver = true;
+                              }
                               if (lastValue == "X") {
                                 lastValue = "O";
                               } else {
@@ -132,17 +141,16 @@ class _GameScreenState extends State<GameScreen> {
             ),
           ),
           SizedBox(
-              height: 25.0,
+            height: 25.0,
           ),
           Text(
-              result,
-              style: TextStyle(color: Colors.white, fontSize: 54.0),
+            result,
+            style: TextStyle(color: Colors.white, fontSize: 54.0),
           ),
-
           ElevatedButton.icon(
             onPressed: () {
               setState(() {
-                game.board = Game.initGameBoard();
+                game.resetBoard();
                 lastValue = "X";
                 gameOver = false;
                 turn = 0;

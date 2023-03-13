@@ -10,8 +10,12 @@ class Game {
 
   //Empty board
   late List<String> board;
-
+  
   Game() {
+    board = initGameBoard();
+  }
+
+  void resetBoard() {
     board = initGameBoard();
   }
 
@@ -49,7 +53,5 @@ class Game {
   //   return false;
   // }
 
-  // void resetBoard() {
-  //   board = initGameBoard();
-  // }
+  
 }
