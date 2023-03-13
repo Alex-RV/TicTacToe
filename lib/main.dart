@@ -55,7 +55,7 @@ class _GameScreenState extends State<GameScreen> {
             crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
             children: [
               RichText(
-              text: TextSpan(
+                text: TextSpan(
                 children: <TextSpan>[
                   TextSpan( text: "It's ".toUpperCase(),
                     style: TextStyle( color: Colors.white,fontSize: 58,),),
@@ -65,7 +65,7 @@ class _GameScreenState extends State<GameScreen> {
                     style: TextStyle(color: Colors.white, fontSize: 58,)),
                 ],
               ),
-            ),
+              )
             ],
           ),
           SizedBox(
@@ -93,8 +93,7 @@ class _GameScreenState extends State<GameScreen> {
                             setState(() {
                               game.board[index] = lastValue;
                               turn++;
-                              gameOver = game.winnerCheck(
-                                  lastValue, index, scoreboard, 3);
+                              gameOver = game.winnerCheck(lastValue, index);
 
                               if (gameOver) {
                                 result = "$lastValue is the Winner";

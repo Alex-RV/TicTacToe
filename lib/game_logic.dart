@@ -5,12 +5,12 @@ class Player {
 }
 
 class Game {
-  static final boardLength = 9;
-  static final double blockSize = 100.0;
+  static const boardLength = 9;
+  static const double blockSize = 100.0;
 
   //Empty board
   late List<String> board;
-  
+
   Game() {
     board = initGameBoard();
   }
@@ -22,7 +22,7 @@ class Game {
   static List<String> initGameBoard() =>
       List.generate(boardLength, (index) => Player.empty);
 
-  bool winnerCheck(String player, int index, List<int> scoreboard, int i) {
+  bool winnerCheck(String player, int index) {
     // Define the winning patterns
     final patterns = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
@@ -32,26 +32,13 @@ class Game {
 
     // Check if any of the winning patterns is satisfied by the player's moves
     for (final pattern in patterns) {
+      print(pattern);
       if (pattern.every((index) => board[index] == player)) {
+        print(board[index]);
         return true;
       }
     }
 
     return false;
   }
-
-  // bool isBoardFull() {
-  //   return board.every((cell) => cell != Player.empty);
-  // }
-
-  // bool makeMove(String player, int index) {
-  //   if (board[index] == Player.empty) {
-  //     board[index] = player;
-  //     return true;
-  //   }
-
-  //   return false;
-  // }
-
-  
 }
