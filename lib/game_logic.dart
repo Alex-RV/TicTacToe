@@ -32,9 +32,7 @@ class Game {
 
     // Check if any of the winning patterns is satisfied by the player's moves
     for (final pattern in patterns) {
-      print(pattern);
       if (pattern.every((index) => board[index] == player)) {
-        print(board[index]);
         return true;
       }
     }

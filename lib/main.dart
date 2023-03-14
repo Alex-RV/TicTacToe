@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tictactoe/game_logic.dart';
 
 //  ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 16, 34, 138)),
-void main() => runApp(MyApp());
+void main() => runApp(TicTacToe());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class TicTacToe extends StatelessWidget {
+  const TicTacToe({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +31,6 @@ class _GameScreenState extends State<GameScreen> {
   List<int> scoreboard = [0, 0, 0, 0, 0, 0, 0, 0];
 
   Game game = Game();
-
-  @override
-  void initState() {
-    super.initState();
-    game.board = Game.initGameBoard();
-    print(game.board);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +128,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           Text(
             result,
-            style: TextStyle(color: Colors.white, fontSize: 54.0),
+            style: TextStyle(color: Colors.white, fontSize: 50.0),
           ),
           ElevatedButton.icon(
             onPressed: () {
