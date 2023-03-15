@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/game_logic.dart';
 
-//  ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 16, 34, 138)),
 void main() => runApp(TicTacToe());
 
 class TicTacToe extends StatelessWidget {
@@ -28,7 +27,6 @@ class _GameScreenState extends State<GameScreen> {
   bool gameOver = false;
   int turn = 0; // to check the draw
   String result = "";
-  List<int> scoreboard = [0, 0, 0, 0, 0, 0, 0, 0];
 
   Game game = Game();
 
@@ -141,8 +139,8 @@ class _GameScreenState extends State<GameScreen> {
           SizedBox(
             height: 25.0,
           ),
-          Text(
-            result,
+          Text((gameOver)?
+            result:"",
             style: TextStyle(color: Colors.white, fontSize: 50.0),
           ),
           ElevatedButton.icon(
@@ -153,7 +151,6 @@ class _GameScreenState extends State<GameScreen> {
                 gameOver = false;
                 turn = 0;
                 result = "";
-                scoreboard = [0, 0, 0, 0, 0, 0, 0, 0];
               });
             },
             icon: Icon(Icons.replay),
