@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/game_logic.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 void main() => runApp(TicTacToe());
 
@@ -47,8 +48,8 @@ class _GameScreenState extends State<GameScreen> {
             crossAxisAlignment:
                 CrossAxisAlignment.center, //Center Row contents vertically,
             children: [
-              RichText(
-                text: TextSpan(
+              AutoSizeText.rich(
+                TextSpan(
                   children: <TextSpan>[
                     TextSpan(
                       text: "It's ".toUpperCase(),
