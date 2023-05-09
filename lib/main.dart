@@ -33,9 +33,14 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double boardWidth = MediaQuery.of(context).size.shortestSide * 0.9;
+    Orientation orientation = MediaQuery.of(context).orientation;
+    if (orientation == Orientation.landscape) {
+      boardWidth = MediaQuery.of(context).size.shortestSide * 0.7;
+    }
     //tell about difference between double and int
     //check what is the MediaQuery(look on documentation)
-    double boardWidth = MediaQuery.of(context).size.width;
+    // double boardWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 5, 2, 77),
       body: Column(
@@ -136,9 +141,6 @@ class _GameScreenState extends State<GameScreen> {
                 );
               }),
             ),
-          ),
-          SizedBox(
-            height: 25.0,
           ),
           Text((gameOver)?
             result:"",
