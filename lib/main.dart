@@ -105,6 +105,7 @@ class _GameScreenState extends State<GameScreen> {
                       : () {
                           if (game.board[index] == "") {
                             setState(() {
+                              print(game.board[index]);
                               game.board[index] = lastValue;
                               turn++;
                               gameOver = game.winnerCheck(lastValue, index);
@@ -130,22 +131,33 @@ class _GameScreenState extends State<GameScreen> {
                         color: Color.fromARGB(255, 1, 37, 169),
                         borderRadius: BorderRadius.circular(16)),
                     child: Center(
-                      child: Text(
+                      child: game.board[index] == "" ? Text(
                         game.board[index],
                         style: TextStyle(
                             color: game.board[index] == "X"
                                 ? Colors.blue
                                 : Colors.red,
                             fontSize: 64.0),
-                      ),
+                      ) : game.board[index] == "X" ? Image.asset('assets/images/cross.png') : Image.asset('assets/images/circle.png')
+                      
+                      // VERSION WITH LETTERS
+
+                      // child: Text(
+                      //   game.board[index],
+                      //   style: TextStyle(
+                      //       color: game.board[index] == "X"
+                      //           ? Colors.blue
+                      //           : Colors.red,
+                      //       fontSize: 64.0),
+                      // ),
                     ),
                   ),
                 );
               }),
             ),
           ),
-          Text((gameOver)?
-            result:"",
+          Text(
+            (gameOver) ? result : "",
             style: TextStyle(color: Colors.white, fontSize: 50.0),
           ),
           ElevatedButton.icon(
