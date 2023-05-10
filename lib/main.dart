@@ -131,6 +131,8 @@ class _GameScreenState extends State<GameScreen> {
                         color: Color.fromARGB(255, 1, 37, 169),
                         borderRadius: BorderRadius.circular(16)),
                     child: Center(
+
+                      // VERSION WITH IMAGES
                       child: game.board[index] == "" ? Text(
                         game.board[index],
                         style: TextStyle(
@@ -139,7 +141,7 @@ class _GameScreenState extends State<GameScreen> {
                                 : Colors.red,
                             fontSize: 64.0),
                       ) : game.board[index] == "X" ? Image.asset('assets/images/cross.png') : Image.asset('assets/images/circle.png')
-                      
+
                       // VERSION WITH LETTERS
 
                       // child: Text(
