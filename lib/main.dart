@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tictactoe/gameBoard.dart';
 import 'package:tictactoe/game_logic.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'gameBoard.dart';
 
 void main() => runApp(TicTacToe());
 
@@ -178,11 +176,6 @@ class _GameScreenState extends State<GameScreen> {
             icon: Icon(Icons.replay),
             label: Text("Repeat game"),
           ),
-          // Container(
-          //   width: boardWidth,
-          //   height: boardWidth,
-          //   child: GameBoard(),
-          // ),
         ],
       ),
     );
