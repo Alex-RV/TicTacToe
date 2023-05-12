@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tictactoe/gameBoard.dart';
 import 'package:tictactoe/game_logic.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'gameBoard.dart';
 
 void main() => runApp(TicTacToe());
 
@@ -41,10 +43,10 @@ class _GameScreenState extends State<GameScreen> {
       boardWidth = MediaQuery.of(context).size.shortestSide * 0.7;
     }
     //tell about difference between double and int
-    //check what is the MediaQuery(look on documentation)
     // double boardWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 5, 2, 77),
+      
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,9 +83,6 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               )
             ],
-          ),
-          SizedBox(
-            height: 20.0,
           ),
           SizedBox(
             width: boardWidth,
@@ -132,27 +131,31 @@ class _GameScreenState extends State<GameScreen> {
                         borderRadius: BorderRadius.circular(16)),
                     child: Center(
 
-                      // VERSION WITH IMAGES
-                      child: game.board[index] == "" ? Text(
-                        game.board[index],
-                        style: TextStyle(
-                            color: game.board[index] == "X"
-                                ? Colors.blue
-                                : Colors.red,
-                            fontSize: 64.0),
-                      ) : game.board[index] == "X" ? Image.asset('assets/images/cross.png') : Image.asset('assets/images/circle.png')
+                        // VERSION WITH IMAGES
+                        child: game.board[index] == ""
+                            ? Text(
+                                game.board[index],
+                                style: TextStyle(
+                                    color: game.board[index] == "X"
+                                        ? Colors.blue
+                                        : Colors.red,
+                                    fontSize: 64.0),
+                              )
+                            : game.board[index] == "X"
+                                ? Image.asset('assets/images/cross.png')
+                                : Image.asset('assets/images/circle.png')
 
-                      // VERSION WITH LETTERS
+                        // VERSION WITH LETTERS
 
-                      // child: Text(
-                      //   game.board[index],
-                      //   style: TextStyle(
-                      //       color: game.board[index] == "X"
-                      //           ? Colors.blue
-                      //           : Colors.red,
-                      //       fontSize: 64.0),
-                      // ),
-                    ),
+                        // child: Text(
+                        //   game.board[index],
+                        //   style: TextStyle(
+                        //       color: game.board[index] == "X"
+                        //           ? Colors.blue
+                        //           : Colors.red,
+                        //       fontSize: 64.0),
+                        // ),
+                        ),
                   ),
                 );
               }),
@@ -175,6 +178,11 @@ class _GameScreenState extends State<GameScreen> {
             icon: Icon(Icons.replay),
             label: Text("Repeat game"),
           ),
+          // Container(
+          //   width: boardWidth,
+          //   height: boardWidth,
+          //   child: GameBoard(),
+          // ),
         ],
       ),
     );
