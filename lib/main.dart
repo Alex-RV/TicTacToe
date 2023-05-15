@@ -55,6 +55,16 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
+  void resetGame() {
+    setState(() {
+      game.resetBoard();
+      lastValue = "X";
+      gameOver = false;
+      turn = 0;
+      result = "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double boardWidth = MediaQuery.of(context).size.shortestSide * 0.9;
@@ -71,68 +81,16 @@ class _GameScreenState extends State<GameScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TurnDisplay(lastValue: lastValue),
-          SizedBox(
-            width: boardWidth,
-            height: boardWidth,
-            child: GridView.count(
-              //check what is the crossAxisCount
-              // ~/ return Int as result
-              crossAxisCount: 3,
-
-              padding: EdgeInsets.all(16.0),
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-
-              //check how works "generate" in documentation
-              children: List.generate(Game.boardLength, (index) {
-                return InkWell(
-                  onTap: gameOver
-                      ? null
-                      : () {
-                          onTap(index);
-                        },
-                  child: Container(
-                    width: Game.blockSize,
-                    height: Game.blockSize,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 1, 37, 169),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Center(
-                        // VERSION WITH IMAGES
-                        child: game.board[index] == ""
-                            ? Text(
-                                game.board[index],
-                                style: TextStyle(
-                                    color: game.board[index] == "X"
-                                        ? Colors.blue
-                                        : Colors.red,
-                                    fontSize: 64.0),
-                              )
-                            : game.board[index] == "X"
-                                ? Image.asset('assets/images/cross.png')
-                                : Image.asset('assets/images/circle.png')),
-                  ),
-                );
-              }),
-            ),
+          GameBoard(
+            game: game,
+            gameOver: gameOver,
+            onTap: onTap,
           ),
           Text(
             (gameOver) ? result : "",
             style: TextStyle(color: Colors.white, fontSize: 50.0),
           ),
-          ElevatedButton.icon(
-            onPressed: () {
-              setState(() {
-                game.resetBoard();
-                lastValue = "X";
-                gameOver = false;
-                turn = 0;
-                result = "";
-              });
-            },
-            icon: Icon(Icons.replay),
-            label: Text("Repeat game"),
-          ),
+          RefreshButton(resetGame: resetGame)
         ],
       ),
     );
@@ -182,8 +140,67 @@ class TurnDisplay extends StatelessWidget {
   }
 }
 
-// class RefreshButton extends StatelessWidget{
-//   const RefreshButton({required this.game})
+class GameBoard extends StatelessWidget {
+  const GameBoard({
+    required this.game,
+    required this.gameOver,
+    required this.onTap,
+  });
 
-  
-// }
+  final Game game;
+  final bool gameOver;
+  final Function(int) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    double boardWidth = MediaQuery.of(context).size.shortestSide * 0.9;
+    return SizedBox(
+      width: boardWidth,
+      height: boardWidth,
+      child: GridView.count(
+        crossAxisCount: 3,
+        padding: EdgeInsets.all(16.0),
+        mainAxisSpacing: 8.0,
+        crossAxisSpacing: 8.0,
+        children: List.generate(Game.boardLength, (index) {
+          final boardValue = game.board[index];
+          final isPlayable = !gameOver && boardValue.isEmpty;
+          return InkWell(
+            onTap: isPlayable ? () => onTap(index) : null,
+            child: Container(
+              width: Game.blockSize,
+              height: Game.blockSize,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 1, 37, 169),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Center(
+                child: boardValue.isEmpty
+                  ? Text('')
+                  : game.board[index] == "X"
+                    ? Image.asset('assets/images/cross.png')
+                    : Image.asset('assets/images/circle.png'),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+
+class RefreshButton extends StatelessWidget{
+  const RefreshButton({required this.resetGame});
+
+  final Function resetGame;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+            onPressed: () => resetGame(),
+            icon: Icon(Icons.replay),
+            label: Text("Repeat game"),
+          );
+  }
+}
