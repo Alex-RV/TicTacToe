@@ -41,7 +41,7 @@ class _GameScreenState extends State<GameScreen> {
         gameOver = game.winnerCheck(lastValue, index);
 
         if (gameOver) {
-          result = "$lastValue is the Winner";
+          result = " is the Winner";
         } else if (!gameOver && turn == 9) {
           result = "It's a Draw!";
           gameOver = true;
@@ -67,11 +67,6 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double boardWidth = MediaQuery.of(context).size.shortestSide * 0.9;
-    Orientation orientation = MediaQuery.of(context).orientation;
-    if (orientation == Orientation.landscape) {
-      boardWidth = MediaQuery.of(context).size.shortestSide * 0.7;
-    }
     //tell about difference between double and int
     // double boardWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -86,13 +81,51 @@ class _GameScreenState extends State<GameScreen> {
             gameOver: gameOver,
             onTap: onTap,
           ),
-          Text(
-            (gameOver) ? result : "",
-            style: TextStyle(color: Colors.white, fontSize: 50.0),
-          ),
-          RefreshButton(resetGame: resetGame)
+          ResultDisplay(gameOver: gameOver,lastValue: lastValue,result: result,turn: turn,),
+          RefreshButton(resetGame: resetGame, gameOver: gameOver,),
         ],
       ),
+    );
+  }
+}
+
+class ResultDisplay extends StatelessWidget {
+  const ResultDisplay(
+      {required this.lastValue,
+      required this.gameOver,
+      required this.result,
+      required this.turn});
+
+  final String lastValue;
+  final bool gameOver;
+  final String result;
+  final int turn;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Visibility(
+          visible: gameOver,
+          child: SizedBox(
+            width: 50,
+            height: 50,
+            child: lastValue == "O"
+                ? Image.asset('assets/images/cross.png')
+                : Image.asset('assets/images/circle.png'),
+          ),
+        ),
+        Text(
+          (turn == 9)
+              ? result
+              : gameOver
+                  ? result
+                  : "",
+          style: TextStyle(color: Colors.white, fontSize: 50.0),
+        ),
+      ],
     );
   }
 }
@@ -108,31 +141,25 @@ class TurnDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AutoSizeText.rich(
-          TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                text: "It's ".toUpperCase(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 58,
-                ),
-              ),
-              TextSpan(
-                text: lastValue.toUpperCase(),
-                style: TextStyle(
-                  color: lastValue == "X" ? Colors.blue : Colors.red,
-                  fontSize: 58,
-                ),
-              ),
-              TextSpan(
-                text: " turn",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 58,
-                ),
-              ),
-            ],
+        Text(
+          "It's ".toUpperCase(),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 58,
+          ),
+        ),
+        SizedBox(
+          width: 100,
+          height: 100,
+          child: lastValue == "X"
+              ? Image.asset('assets/images/cross.png')
+              : Image.asset('assets/images/circle.png'),
+        ),
+        Text(
+          " turn",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 58,
           ),
         ),
       ],
@@ -176,10 +203,10 @@ class GameBoard extends StatelessWidget {
               ),
               child: Center(
                 child: boardValue.isEmpty
-                  ? Text('')
-                  : game.board[index] == "X"
-                    ? Image.asset('assets/images/cross.png')
-                    : Image.asset('assets/images/circle.png'),
+                    ? Text('')
+                    : game.board[index] == "X"
+                        ? Image.asset('assets/images/cross.png')
+                        : Image.asset('assets/images/circle.png'),
               ),
             ),
           );
@@ -189,18 +216,22 @@ class GameBoard extends StatelessWidget {
   }
 }
 
-
-class RefreshButton extends StatelessWidget{
-  const RefreshButton({required this.resetGame});
+class RefreshButton extends StatelessWidget {
+  const RefreshButton({required this.resetGame, required this.gameOver});
 
   final Function resetGame;
+  final bool gameOver;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-            onPressed: () => resetGame(),
-            icon: Icon(Icons.replay),
-            label: Text("Repeat game"),
-          );
+    return Visibility(
+      visible: gameOver,
+      child: ElevatedButton.icon(
+        onPressed: () => resetGame(),
+        icon: Icon(Icons.replay),
+        label: Text("Repeat game"),
+      ),
+    );
   }
 }
+
