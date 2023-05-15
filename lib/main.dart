@@ -49,39 +49,7 @@ class _GameScreenState extends State<GameScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, //Center Row contents horizontally,
-            crossAxisAlignment:
-                CrossAxisAlignment.center, //Center Row contents vertically,
-            children: [
-              AutoSizeText.rich(
-                TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "It's ".toUpperCase(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 58,
-                      ),
-                    ),
-                    TextSpan(
-                        text: lastValue.toUpperCase(),
-                        style: TextStyle(
-                          color: lastValue == "X" ? Colors.blue : Colors.red,
-                          fontSize: 58,
-                        )),
-                    TextSpan(
-                        text: " turn",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 58,
-                        )),
-                  ],
-                ),
-              )
-            ],
-          ),
+          TurnDisplay(lastValue: lastValue),
           SizedBox(
             width: boardWidth,
             height: boardWidth,
@@ -142,17 +110,6 @@ class _GameScreenState extends State<GameScreen> {
                             : game.board[index] == "X"
                                 ? Image.asset('assets/images/cross.png')
                                 : Image.asset('assets/images/circle.png')
-
-                        // VERSION WITH LETTERS
-
-                        // child: Text(
-                        //   game.board[index],
-                        //   style: TextStyle(
-                        //       color: game.board[index] == "X"
-                        //           ? Colors.blue
-                        //           : Colors.red,
-                        //       fontSize: 64.0),
-                        // ),
                         ),
                   ),
                 );
@@ -178,6 +135,49 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class TurnDisplay extends StatelessWidget {
+  const TurnDisplay({required this.lastValue});
+
+  final String lastValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        AutoSizeText.rich(
+          TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: "It's ".toUpperCase(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 58,
+                ),
+              ),
+              TextSpan(
+                text: lastValue.toUpperCase(),
+                style: TextStyle(
+                  color: lastValue == "X" ? Colors.blue : Colors.red,
+                  fontSize: 58,
+                ),
+              ),
+              TextSpan(
+                text: " turn",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 58,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
