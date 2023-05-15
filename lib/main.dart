@@ -33,6 +33,28 @@ class _GameScreenState extends State<GameScreen> {
 
   Game game = Game();
 
+  void onTap(int index) {
+    if (game.board[index] == "") {
+      setState(() {
+        game.board[index] = lastValue;
+        turn++;
+        gameOver = game.winnerCheck(lastValue, index);
+
+        if (gameOver) {
+          result = "$lastValue is the Winner";
+        } else if (!gameOver && turn == 9) {
+          result = "It's a Draw!";
+          gameOver = true;
+        }
+        if (lastValue == "X") {
+          lastValue = "O";
+        } else {
+          lastValue = "X";
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double boardWidth = MediaQuery.of(context).size.shortestSide * 0.9;
@@ -44,7 +66,6 @@ class _GameScreenState extends State<GameScreen> {
     // double boardWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 5, 2, 77),
-      
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,26 +89,7 @@ class _GameScreenState extends State<GameScreen> {
                   onTap: gameOver
                       ? null
                       : () {
-                          if (game.board[index] == "") {
-                            setState(() {
-                              print(game.board[index]);
-                              game.board[index] = lastValue;
-                              turn++;
-                              gameOver = game.winnerCheck(lastValue, index);
-
-                              if (gameOver) {
-                                result = "$lastValue is the Winner";
-                              } else if (!gameOver && turn == 9) {
-                                result = "It's a Draw!";
-                                gameOver = true;
-                              }
-                              if (lastValue == "X") {
-                                lastValue = "O";
-                              } else {
-                                lastValue = "X";
-                              }
-                            });
-                          }
+                          onTap(index);
                         },
                   child: Container(
                     width: Game.blockSize,
@@ -96,7 +98,6 @@ class _GameScreenState extends State<GameScreen> {
                         color: Color.fromARGB(255, 1, 37, 169),
                         borderRadius: BorderRadius.circular(16)),
                     child: Center(
-
                         // VERSION WITH IMAGES
                         child: game.board[index] == ""
                             ? Text(
@@ -109,8 +110,7 @@ class _GameScreenState extends State<GameScreen> {
                               )
                             : game.board[index] == "X"
                                 ? Image.asset('assets/images/cross.png')
-                                : Image.asset('assets/images/circle.png')
-                        ),
+                                : Image.asset('assets/images/circle.png')),
                   ),
                 );
               }),
@@ -181,3 +181,9 @@ class TurnDisplay extends StatelessWidget {
     );
   }
 }
+
+// class RefreshButton extends StatelessWidget{
+//   const RefreshButton({required this.game})
+
+  
+// }
