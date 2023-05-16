@@ -30,6 +30,7 @@ class _GameScreenState extends State<GameScreen> {
   bool gameOver = false;
   int turn = 0; // to check the draw
   String result = "";
+  bool isWinner = false;
 
   Game game = Game();
 
@@ -42,6 +43,7 @@ class _GameScreenState extends State<GameScreen> {
 
         if (gameOver) {
           result = " is the Winner";
+          isWinner = true;
         } else if (!gameOver && turn == 9) {
           result = "It's a Draw!";
           gameOver = true;
@@ -62,6 +64,7 @@ class _GameScreenState extends State<GameScreen> {
       gameOver = false;
       turn = 0;
       result = "";
+      isWinner = false;
     });
   }
 
@@ -81,8 +84,17 @@ class _GameScreenState extends State<GameScreen> {
             gameOver: gameOver,
             onTap: onTap,
           ),
-          ResultDisplay(gameOver: gameOver,lastValue: lastValue,result: result,turn: turn,),
-          RefreshButton(resetGame: resetGame, gameOver: gameOver,),
+          ResultDisplay(
+            gameOver: gameOver,
+            lastValue: lastValue,
+            result: result,
+            turn: turn,
+            isWinner: isWinner,
+          ),
+          RefreshButton(
+            resetGame: resetGame,
+            gameOver: gameOver,
+          ),
         ],
       ),
     );
@@ -94,12 +106,14 @@ class ResultDisplay extends StatelessWidget {
       {required this.lastValue,
       required this.gameOver,
       required this.result,
-      required this.turn});
+      required this.turn,
+      required this.isWinner});
 
   final String lastValue;
   final bool gameOver;
   final String result;
   final int turn;
+  final bool isWinner;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +122,7 @@ class ResultDisplay extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Visibility(
-          visible: gameOver,
+          visible: isWinner,
           child: SizedBox(
             width: 50,
             height: 50,
@@ -234,4 +248,3 @@ class RefreshButton extends StatelessWidget {
     );
   }
 }
-
