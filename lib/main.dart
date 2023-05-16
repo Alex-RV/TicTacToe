@@ -93,7 +93,6 @@ class _GameScreenState extends State<GameScreen> {
           ),
           RefreshButton(
             resetGame: resetGame,
-            gameOver: gameOver,
           ),
         ],
       ),
@@ -231,20 +230,16 @@ class GameBoard extends StatelessWidget {
 }
 
 class RefreshButton extends StatelessWidget {
-  const RefreshButton({required this.resetGame, required this.gameOver});
+  const RefreshButton({required this.resetGame,});
 
   final Function resetGame;
-  final bool gameOver;
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: gameOver,
-      child: ElevatedButton.icon(
-        onPressed: () => resetGame(),
-        icon: Icon(Icons.replay),
-        label: Text("Repeat game"),
-      ),
+    return ElevatedButton.icon(
+      onPressed: () => resetGame(),
+      icon: Icon(Icons.replay),
+      label: Text("Repeat game"),
     );
   }
 }
