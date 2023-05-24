@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/game_logic.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 void main() => runApp(TicTacToe());
 
@@ -22,8 +21,6 @@ class GameScreen extends StatefulWidget {
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
-
-// ##TODO: add line when player winning the game
 
 class _GameScreenState extends State<GameScreen> {
   String lastValue = "X";
@@ -78,7 +75,7 @@ class _GameScreenState extends State<GameScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TurnDisplay(lastValue: lastValue),
+          TurnDisplay(lastValue: lastValue, gameOver: gameOver, ),
           GameBoard(
             game: game,
             gameOver: gameOver,
@@ -144,39 +141,42 @@ class ResultDisplay extends StatelessWidget {
 }
 
 class TurnDisplay extends StatelessWidget {
-  const TurnDisplay({required this.lastValue});
+  const TurnDisplay({required this.lastValue, required this.gameOver});
 
   final String lastValue;
+  final bool gameOver;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          "It's ".toUpperCase(),
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 58,
-          ),
-        ),
-        SizedBox(
-          width: 100,
-          height: 100,
-          child: lastValue == "X"
-              ? Image.asset('assets/images/cross.png')
-              : Image.asset('assets/images/circle.png'),
-        ),
-        Text(
-          " turn",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 58,
-          ),
-        ),
-      ],
-    );
+    return Visibility(
+        visible: !gameOver,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "It's ".toUpperCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 58,
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: lastValue == "X"
+                  ? Image.asset('assets/images/cross.png')
+                  : Image.asset('assets/images/circle.png'),
+            ),
+            Text(
+              " turn",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 58,
+              ),
+            ),
+          ],
+        ));
   }
 }
 
@@ -230,7 +230,9 @@ class GameBoard extends StatelessWidget {
 }
 
 class RefreshButton extends StatelessWidget {
-  const RefreshButton({required this.resetGame,});
+  const RefreshButton({
+    required this.resetGame,
+  });
 
   final Function resetGame;
 
